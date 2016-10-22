@@ -188,6 +188,8 @@ def smarter_ai_correct_colors(code_generated)
     y       = @player_move_count_y + 4# is 10 items right in array
     x       = @player_move_count_x
     
+   @colors_selection = @colors_selection.shuffle # makes it more fun with randomized high win chance
+    
     @colors_selection.each do |color| 
         if @valid_move_count != (4*12) || @win != true && was_this_run < 1
             try = []
@@ -284,7 +286,8 @@ def smarter_ai(code_generated)
                 whats_next = smarter_ai_fix_order(code_generated,correct)
             end
         end
-
+                break if @valid_move_count == (4*12)
+                
             right_stuff = ["?","Q","Q","Q"]
             @put_where   = []
             case whats_next
@@ -321,6 +324,8 @@ def smarter_ai(code_generated)
                     right_stuff[@put_where[1]] = correct[2]
                     array_move(right_stuff,code_generated)
             end
+            
+    break if @valid_move_count == (4*12)
     
             # test swap last 2
             if right_stuff[0] != "?"
