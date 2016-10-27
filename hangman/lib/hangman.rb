@@ -9,7 +9,7 @@ the_board_display = [""," /~~\\ \n|o o |\n \\__/ \n"," /~~\\ \n|o o |\n \\__/ \n
 " /~~\\ \n| o o|\n \\__/ Nooooo! \n __|__\n   |\n   |\n  / \\\n /   \\\n"]
 
 def in_dictionary(word_checking)
-    CSV.foreach("/home/ubuntu/workspace/hangman_game/dictionary.csv"){|word| return true if word.include? word_checking}
+    CSV.foreach("/home/ubuntu/workspace/hangman/data/dictionary.csv"){|word| return true if word.include? word_checking}
 end
 def word_input(human_or_AI) # human choses the word, needs to be >5 letters
     if human_or_AI == 'human'
@@ -38,7 +38,7 @@ def word_input(human_or_AI) # human choses the word, needs to be >5 letters
     end
 end
 def random_word_from_dictionary # needs to be >5 letters
-    CSV.read("/home/ubuntu/workspace/hangman_game/dictionary.csv").sample
+    CSV.read("/home/ubuntu/workspace/hangman/data/dictionary.csv").sample 
 end
 def create_blank_word_display(word)
     underscore_array_for_ammount_of_letters = []
@@ -109,7 +109,7 @@ def load_game
     
     puts "what is the save file name?"
     save_file_name = gets.chomp
-    save_file_name = "/home/ubuntu/workspace/hangman_game/lib/Saved_games/#{save_file_name}.csv"
+    save_file_name = "/home/ubuntu/workspace/hangman/lib/Saved_games/#{save_file_name}.csv"
     load_data = CSV.open save_file_name
     load_data.each_with_index do |row,index|
         @blank_word_display    << row
