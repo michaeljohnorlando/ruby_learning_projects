@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Etch-A-Sketch</title>
+<link rel="stylesheet" type="text/css" href="Etch-A-Sketch.css">
+<script src="Etch-A-Sketch.js"></script>
+</head>
+
+<div class='controls'>
+  color:
+ <select id="colors" name="colors">
+  <option value="white">white</option>
+  <option value="blue">blue</option>
+  <option value="green">green</option>
+  <option value="red">red</option>
+</select>
+<input id="fade" type='button' value='Fade'></input>
+<br/>
+ <div id='rowtwo'>
+Columns:<input class="userInput" type="number" name="size" value="16"></input>
+Rows:<input class="userInput" type="number" name="size" value="16"></input>
+<button class="changeGrid">Create Grid / Clear</button>
+</div>
+</div>
+
+<div id="grid"></div> <br/>
+
+  <p class='controls'> this can help with random ideas... <br/>
+    (if there arent any clouds outside)</p>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+</html>

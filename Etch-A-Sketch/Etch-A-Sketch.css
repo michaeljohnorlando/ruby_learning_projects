@@ -1,0 +1,37 @@
+body {
+  background-color:#78866B
+}
+.controls {
+  text-align:center;
+  margin:auto;
+  padding:10px 0 10px 0;
+  background-color: #786D5F;
+}
+#rowtwo {
+  padding-top:10px;
+}
+#colors {
+  margin-right:20px;
+  background-color: #98AFC7;
+}
+.userInput {
+  margin: 0 20px 0 0;
+  width:60px;
+  background-color: #98AFC7;
+}
+
+#box {
+  height: 20px;
+  width: 20px;
+  background-color: #565051;
+  border: .1px solid grey;
+  float: left;
+}
+
+#grid {
+  position: relative;
+  top: 10px;
+  margin: auto;
+  height: 0px;
+  width:  0px;
+}

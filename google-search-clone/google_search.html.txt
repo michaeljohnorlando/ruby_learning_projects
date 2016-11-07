@@ -1,0 +1,114 @@
+<body>
+  <headder>
+    <ul class="top_navbar">
+      <li>
+        <a href="https://www.google.co.jp/images/nav_logo242.png"><img id="google_logo1" src="https://upload.wikimedia.org/wikipedia/commons/c/ce/Transparent.gif"></a>
+      </li>
+      <li>
+        <form>
+          <input class="search_bar" type="text" value="this page" size=40px>
+          <input class="button" type="submit" value="">
+        </form>
+      </li>
+      <li class="my_name">
+        <p>Michael</p>
+      </li>
+      <li>
+        <a href="https://www.google.co.jp/intl/en/options/"> <img id="app_icon" src="https://upload.wikimedia.org/wikipedia/commons/c/ce/Transparent.gif"></a>
+      </li>
+      <li>
+        <a href="notify"><img id="notification_icon" src="https://upload.wikimedia.org/wikipedia/commons/c/ce/Transparent.gif"></a>
+      </li>
+      <li>
+        <a href="https://www.google.co.jp/intl/en/options/"> <img id="my_icon" src="https://lh5.googleusercontent.com/-38sqhJRdX08/AAAAAAAAAAI/AAAAAAAAAAA/AMW9IgetrtCXg5KAdT2GdGnCHEOkYiI3vQ/s32-c-mo/photo.jpg"></a>
+      </li>
+    </ul>
+    <ul class="second_navbar">
+      <li id="padding_All">
+        <a class="blue_link" href="nil">All 
+        </a>
+      </li>
+      <li class="padding"> <a class="grey_black_h" href="nil">News</a></li>
+      <li class="padding"> <a class="grey_black_h" href="nil">Images</a></li>
+      <li class="padding"> <a class="grey_black_h" href="nil">Vidieos</a></li>
+      <li class="padding"> <a class="grey_black_h" href="nil">Maps</a></li>
+      <li class="padding"> <a class="grey_black_h" href="nil">More &#9662</a></li>
+      <li class="padding"> <a class="grey_black_h" id="search_tools" href="nil">Search Tools</a></li>
+    </ul>
+  </headder>
+  <p id="time_to_serch">About 8,040,000,000 results (0.39 seconds) </p>
+  <div class="results">
+    <a  id="res_link" href="this is a pun">This Page Intentionally Left Blank</a>
+    <p id="res_alt"> www.this-page-intentionally-left-blank.org/ <span> 	&#9207</span> </p>
+    <p id="res_des">This Page Intentionally Left Blank (according to the recommendations of the TPILB-Project).</p>
+    
+    <a  id="res_link" href="none">Hack this page - Chrome Web Store - chrome.google.com</a>
+    <p id="res_alt">https://chrome.google.com/...this-page/fhlmoffoggikiefmphhkgjeocbfmc...<span> 	&#9207</span> </p>
+    <p id="res_des">How it works: Click on the skull icon to make the current page editable. IMPORTANT NOTE: If you've just installed the extension, please reload the page on ...</p>
+    
+    <a  id="res_link" href="none">Google Translate</a>
+    <p id="res_alt">https://translate.google.com/<span> 	&#9207</span> </p>
+    <p id="res_des">Google's free online language translation service instantly translates text and web pages. This translator supports: English, Afrikaans, Albanian, Amharic, Arabic, ...</p>
+    
+    <a  id="res_link" href="none">Intentionally blank page - Wikipedia, the free encyclopedia</a>
+    <p id="res_alt">https://en.wikipedia.org/wiki/Intentionally_blank_page<span> 	&#9207</span> </p>
+    <p id="res_des">An intentionally blank page or vacat page is a page that is devoid of content, and may be unexpected. Such pages may serve purposes ranging from ...</p>
+    
+    <a  id="res_link" href="none">This Page Amsterdam, digital production agency.</a>
+    <p id="res_alt">thispage.amsterdam/<span> 	&#9207</span> </p>
+    <p id="res_des">This Page Amsterdam. Award winning digital production agency, based in the center of Amsterdam. We make websites, apps and interactive installations.</p>
+    
+    <a  id="res_link" href="should be">I  	&#10084 BACON</a>
+    <p id="res_alt">bacon.com/amaze<span> 	&#9207</span> </p>
+    <p id="res_des">the pig a wonderfull silly smart adorable creature... That I just <b>CAN'T STOP EATING</B></p>
+  </div>
+  <div class="related_to_page">
+  <p id="time_to_serch"> Searches related to this page </p>
+    <span id="left">
+      <a id="res_link" href="no l">translate this page</a><br/>
+      <a id="res_link" href="no 2">this page has insecure content</a><br/>
+      <a id="res_link" href="no l">this page will entertain u</a><br/>
+      <a id="res_link" href="no l">download video from this page</a>
+    </span>
+    <span id="right">
+      <a id="res_link" href="no 2">this page contains renderable text</a><br/>
+      <a id="res_link" href="no 2">oops this page appears broken</a><br/>
+      <a id="res_link" href="no 2">like this page text art</a><br/>
+      <a id="res_link" href="no 2">facebook like this page</a>
+    </span>
+  </div>
+  <div id="google_o_logo">
+  <a href="https://www.google.co.jp/images/nav_logo242.png"><img id="google_logo_big1" src="https://upload.wikimedia.org/wikipedia/commons/c/ce/Transparent.gif"></a>
+  <span>
+  <a href="https://www.google.co.jp/images/nav_logo242.png"><img id="google_logo_o" src="https://upload.wikimedia.org/wikipedia/commons/c/ce/Transparent.gif"></a>
+  <a href="https://www.google.co.jp/images/nav_logo242.png"><img id="google_logo_o" src="https://upload.wikimedia.org/wikipedia/commons/c/ce/Transparent.gif"></a>
+  <a href="https://www.google.co.jp/images/nav_logo242.png"><img id="google_logo_o" src="https://upload.wikimedia.org/wikipedia/commons/c/ce/Transparent.gif"></a>
+  <a href="https://www.google.co.jp/images/nav_logo242.png"><img id="google_logo_o" src="https://upload.wikimedia.org/wikipedia/commons/c/ce/Transparent.gif"></a>
+  <a href="https://www.google.co.jp/images/nav_logo242.png"><img id="google_logo_o" src="https://upload.wikimedia.org/wikipedia/commons/c/ce/Transparent.gif"></a>
+  </span>
+    <a href="https://www.google.co.jp/images/nav_logo242.png"><img id="google_logo_right" src="https://upload.wikimedia.org/wikipedia/commons/c/ce/Transparent.gif"></a>
+    <br/>
+    <p id="numbers_below1">1</p>
+    <a id="numbers_below_2" href="none">2</a>
+    <a id="numbers_below_rest" href="none">3</a>
+    <a id="numbers_below_rest" href="none">4</a>
+    <a id="numbers_below_rest" href="none">5</a>
+    <a id="numbers_below_rest" href="none">6</a>
+    <a id="numbers_below_rest" href="none">7</a>
+    <a id="numbers_below_rest" href="none">8</a>
+    <a id="numbers_next" href="none">Next</a>
+  </div>
+  <footer>
+    <p id="footer_location"> 	&#9679 Yokosuka, Kanagawa Prefecture - From your Internet address - </p>
+    <a class="grey_black_h" href="No"> Use precise location - </a>
+    <a class="grey_black_h" href="No">Learn more   </a>
+    <br/>
+    <span id="place_footer1">
+    <a class="footer_grey_black_h" href="none">Help</a>
+      <a class="footer_grey_black_h" href="none">Send</a>
+      <a class="footer_grey_black_h" href="none">feedback</a>
+      <a class="footer_grey_black_h" href="none">Privacy Terms</a>
+    </span>
+  </footer>
+    
+</body>
