@@ -6,36 +6,43 @@ class LinkedList
     @tail = nil
   end
   
-  def append(value) #creates a new node at the end of the list
-	node           = Node.new   #creates a new node
-    node.value     = value      #inserts the data into the node
-    node.next_node = nil        #gives the node info on what the next node will be
-    @tail          = value      #since this data is the new tail it assigns the @tail with this value
-    @head = value if @head.nil? #if the list is empty then this value also needs to set the head value
+  def append(node_name,data = nil) #creates a new node at the end of the list... data in node is nil by default
+	node_name           = Node.new                              #creates a new node
+    node_name.value     = data                                  #inserts the data into the node
+    node_name.next_node = nil                                   #gives the node info on what the next node will be
+    @tail.nil? ? @tail = node_name : @tail.next_node = node_name #changes the old tail next_node to reference what the new tail will be... or if no tail makes one
+    @tail               = node_name                             #since this data is the new tail it assigns the @tail with this value
+    @head = node_name if @head.nil?                             #if the list is empty then this value also needs to set the head value
   end
-  def prepend(value) #creates a new node at the start of the list... same as append just at the beginning
-	node           = Node.new
-    node.value     = value
-    node.next_node = @head
-    @head          = value
-    @tail = value if @head.nil?
+  def prepend(node_name,data = nil) #creates a new node at the start of the list... same as append just at the beginning
+	node_name           = Node.new
+    node_name.value     = data
+    node_name.next_node = @head
+    @head               = node_name
+    @tail = node_name if @head.nil?
   end
-  def size
+  def size #returns the size as an integer
+	total = 0 # the counter
     if @head.nil?
         return 0
     else
-	  value = @head
-	  until value.nil?
-		value =  value.next_node
+	  node = @head
+	  until node.nil?
+		node =  node.next_node
 		total += 1
 	  end
 	  return total
     end
   end
-  def head # retuns head value
+  def head # returns head value
     return nil if @head.nil?
-    @head
+    @head.value
   end
+  def tail # returns tail value
+    return nil if @tail.nil?
+    @tail.value
+  end
+  def at(index)
 end
 
 class Node # makes a new entry 
@@ -45,11 +52,11 @@ class Node # makes a new entry
     @next_node = next_node
   end
 end
-
-
 test = LinkedList.new
-test.prepend('one')
-test.append('two')
-test.prepend('zero')
-test.append('three')
-puts test.head
+test.append(2,'two')
+test.prepend(1,'one')
+test.prepend(0,'zero')
+test.append(3,'three')
+#puts test.head   <<= zero
+#puts test.tail   <<= three   
+#puts test.size   <<= 4
