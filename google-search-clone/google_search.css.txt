@@ -1,0 +1,225 @@
+li {
+  float: left;
+}
+
+#google_logo1 {
+  transform: translateY(30%);
+  margin: 0px 20px 0px 0px;
+  width: 92px;
+  height: 32px;
+  background: url(https://www.google.com/images/nav_logo242.png) 0px 35px;
+}
+
+#google_logo_big1 {
+  margin: 0px;
+  width: 95px;
+  height: 38px;
+  background: 
+    url(https://www.google.com/images/nav_logo242.png) 0px 0px;
+}
+#google_logo_o {
+  margin:0px;
+  width: 20px;
+  height: 38px;
+  background: 
+    url(https://www.google.com/images/nav_logo242.png) -75px 0px;
+}
+#google_logo_right {
+  margin: 0px;
+  width: 70px;
+  height: 38px;
+  background: 
+    url(https://www.google.com/images/nav_logo242.png) -96px 0px;
+}
+#google_o_logo {
+  margin: 150px 0px 5px 240px;
+}
+#numbers_below1 {
+  margin-left:2.5%;
+  margin-top:0px;
+  float:left;
+}
+#numbers_below_2 {
+  margin-left:16px;
+  text-decoration:none;
+}
+#numbers_below_2:hover {
+  text-decoration:underline;
+}
+#numbers_below_rest {
+  margin-left:12px;
+  text-decoration:none;
+}
+#numbers_below_rest:hover {
+  text-decoration:underline;
+}
+#numbers_next {
+  margin-left:65px;
+  text-decoration:none;
+}
+#numbers_next:hover {
+  text-decoration:underline;
+}
+
+.top_navbar {
+  list-style-type: none;
+  margin: 0px;
+  padding: 10px 0px 10px 15px;
+  overflow: hidden;
+  background: #e6e6e6;
+}
+
+.search_bar {
+  transform: translateY(20%);
+  padding: 4px 5px;
+  outline: none;
+  font-size: 19px;
+  border: solid 1px #B1B1B1;
+  font-family: airiel, Times New Roman;
+}
+.search_bar:hover {
+  border: solid grey 1px;
+  border-radius: 1px;
+}
+.search_bar:focus {
+  border: solid #6996E2 1px;
+}
+.button {
+  transform: translateY(26%);
+  background: #5252FF -104px -51px;
+  width: 30px;
+  height: 32px;
+  border: none;
+  border-radius: 2px;
+  font-size: 20px;
+  margin-left: -5px;
+  background-image: url(https://www.google.com/images/nav_logo242.png);
+}
+
+.my_name {
+  padding: 0;
+  margin: 0px 10px 0px 48%;
+}
+
+#app_icon {
+  width: 35px;
+  height: 35px;
+  background: url("//ssl.gstatic.com/gb/images/i1_1967ca6a.png") -130px -40px;
+  transform: translateY(30%);
+}
+
+#notification_icon {
+  width: 35px;
+  height: 35px;
+  background: url("https://ssl.gstatic.com/gb/images/i1_1967ca6a.png") -300px -30px;
+  transform: translateY(3%);
+}
+#notification_icon:hover {
+  width: 35px;
+  height: 35px;
+  background: url("https://ssl.gstatic.com/gb/images/i1_1967ca6a.png") -265px -30px;
+  transform: translateY(3%);
+}
+
+#my_icon {
+  border-radius: 20px;
+  transform: translatey(6px);
+  margin-left: 25px;
+}
+
+.second_navbar {
+  list-style-type: none;
+  border-bottom: solid 2px #e6e6e6;
+  margin-top: 5;
+  margin-left: 90px;
+  height: 50px;
+}
+.padding {
+  padding-right: 10px;
+}
+#padding_All {
+  padding: 0 10px 27px;
+  border-bottom:solid 4px #00a9ff;
+}
+.blue_link:link {
+  color:#00a9ff;
+  text-decoration:none;
+}
+.grey_black_h:link {
+  text-decoration: none;
+  color: grey;
+}
+.grey_black_h:hover {
+  color: black;
+}
+#search_tools:hover{
+  border:solid grey 1px;
+  padding:5px 5px 5px 4px;
+  border-radius:2px;
+  color:grey;
+}
+#search_tools {
+  padding:5px;
+}
+#time_to_serch {
+  color: grey;
+  position: relative;
+  margin-left: 140px;
+}
+
+.results {
+  margin-left:8.1%;
+}
+#res_link:link {
+  text-decoration:none;
+  font-size:20px;
+  margin-top:20px;
+}
+#res_link:hover {
+   text-decoration:underline;
+}
+#res_alt {
+  color:green;
+  margin-top:0px;
+  margin-bottom:0px;
+}
+#res_des {
+  margin-top:0px;
+  margin-right:65%;
+}
+
+.related_to_page {
+  margin-left:140px;
+}
+#left {
+  margin-right:0px;
+  float:left;
+}
+#right {
+  float:right;
+  margin-right:60%;
+}
+
+footer {
+  padding:20px;
+  border-top:solid 1px #e6e6e6;
+  margin-top:20px;
+}
+#footer_location {
+  margin:0px 0px 0px 120px;
+  color:grey;
+  float:left;
+}
+#place_footer1 {
+  position:absolute;
+  margin:20px 0px 0px 120px;
+  padding:20px;
+}
+.footer_grey_black_h:link {
+  padding-right:40px;
+  text-decoration: none;
+  color: grey;
+}
+.footer_grey_black_h:hover {
+  color: black;
+

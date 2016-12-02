@@ -1,0 +1,15 @@
+<h4>Post a new Comment here</h4>
+<%= form_for [ @article, @comment ] do |f| %>
+  <p>
+    <%= f.label :author_name %><br/>
+    <%= f.text_field :author_name %>
+  </p>
+  <p>
+    <%= f.label :body %><br/>
+    <%= f.text_area :body %>
+  </p>
+  <p>
+    <%= f.submit 'Submit' %>
+  </p>
+  <%= @comment.created_at %>
+<% end %>
