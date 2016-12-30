@@ -20,8 +20,8 @@ def build_tree(arr_of_data)  # Sorts array then creates a node class for each da
     row_iteration_count   = 1
     row_max_count         = 1 #multiply by 2 ... tree amount of nodes dubbles every row
     
-    print arr_of_data
-    puts"\n"
+    #print arr_of_data
+    #puts"\n"
     
     arr_of_data.each.with_index do |value,index|
         node             = Node.new(value)
@@ -39,19 +39,25 @@ def build_tree(arr_of_data)  # Sorts array then creates a node class for each da
                 node.child_right = arr_of_data[index + row_max_count + 2]
             end
         end
-        puts "value = #{node.value} parent = #{node.parent} child_left = #{node.child_left} child_right = #{node.child_right}"
+       # puts "value = #{node.value} parent = #{node.parent} child_left = #{node.child_left} child_right = #{node.child_right}"
         tree_arr << node
         
         parent_value += 1 if row_iteration_count % 2 == 0
         row_iteration_count  += 1
         
         next  if row_iteration_count <= row_max_count
-        puts "next row now"
+       # puts "next row now"
         row_iteration_count = 1 # new row count begins 
         row_max_count *= 2
     end
-    print tree_arr
-    puts"\n"
+    return tree_arr
 end
 
-build_tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324])
+def breadth_first_search (tree, search_value)
+    tree.each do |node| 
+       return puts search_value if node.value == search_value
+    end
+end
+
+tree = build_tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324])
+breadth_first_search(tree,23)
