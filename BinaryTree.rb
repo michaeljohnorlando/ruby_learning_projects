@@ -15,22 +15,39 @@ end
 
 def build_tree(arr_of_data)  # Sorts array then creates a node class for each data pice in the array
     arr_of_data = arr_of_data.uniq.sort
-                                                                                 print arr_of_data
     tree_arr    = []
-    parent_value          = 0
-    row_iteration_count   = -1
-    row_max_count         = 2 #start of multiply by 2 ... tree amount of nodes dubbles every row
+    parent_value          = -1 # counting the first time through the each loop hotfix
+    row_iteration_count   = 1
+    row_max_count         = 1 #multiply by 2 ... tree amount of nodes dubbles every row
     
-    arr_of_data.each.with_index do |data,index|
-        node             = Node.new(data)
-        node.value       = data
-        node.parent      = arr_of_data[parent_value] if index != 0 #root node will be nil
-        node.child_left  = arr_of_data[index+1]
-        node.child_right = arr_of_data[index+2]                           ############################## this is where I left off
+    print arr_of_data
+    puts"\n"
+    
+    arr_of_data.each.with_index do |value,index|
+        node             = Node.new(value)
+        if  index == 0   #root node 
+            node.child_left  = arr_of_data[1]
+            node.child_right = arr_of_data[2]
+            parent_value += 1
+        else
+            node.parent = arr_of_data[parent_value]
+            if row_iteration_count == 1
+                node.child_left = arr_of_data[index + row_max_count]
+                node.child_right = arr_of_data[index + row_max_count + 1]
+            else
+                node.child_left = arr_of_data[index + row_max_count  + 1]
+                node.child_right = arr_of_data[index + row_max_count + 2]
+            end
+        end
+        puts "value = #{node.value} parent = #{node.parent} child_left = #{node.child_left} child_right = #{node.child_right}"
         tree_arr << node
-        row_iteration_count += 1
-        next  if row_iteration_count < row_max_count
-        parent_value  += 1
+        
+        parent_value += 1 if row_iteration_count % 2 == 0
+        row_iteration_count  += 1
+        
+        next  if row_iteration_count <= row_max_count
+        puts "next row now"
+        row_iteration_count = 1 # new row count begins 
         row_max_count *= 2
     end
     print tree_arr
@@ -38,5 +55,3 @@ def build_tree(arr_of_data)  # Sorts array then creates a node class for each da
 end
 
 build_tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324])
-
-    
