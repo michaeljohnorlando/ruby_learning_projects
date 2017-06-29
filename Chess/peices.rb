@@ -60,6 +60,7 @@ class Bishop # Bi
   def initialize(position,color)
     @position  = position  # [x,y] array
     @name      = "Bi#{color}"
+    @color     = color
   end
   def name
     return @name
@@ -70,16 +71,46 @@ class Queen  # Qu
   def initialize(position,color)
     @position  = position  # [x,y] array
     @name      = "Qu#{color}"
+    @color     = color
   end
 end
-class King   # Ki
-  attr_accessor :position,:color
+class King   # Ki    (need to go back to... all possible_moves needed to check if moveing into check...)
+  attr_accessor :position,:color,:name
   def initialize(position,color)
     @position  = position  # [x,y] array
     @name      = "Ki#{color}"
+    @color     = color
   end
-  def name
-    return @name
+  def possible_moves
+    y = @position[0]
+    x = @position[1]
+    possible_moves = []
+    if y+1 < 8
+      possible_moves << [x,y+1] if $board[y+1][x] == nil || $board[y+1][x].color != @color
+    end
+    if y-1 >= 0
+      possible_moves << [x,y-1] if $board[y-1][x] == nil || $board[y-1][x].color != @color
+    end
+    if x+1 < 8
+      possible_moves << [x+1,y] if $board[y][x+1] == nil || $board[y][x+1].color != @color
+    end
+    if x-1 >= 0
+      possible_moves << [x-1,y] if $board[y][x-1] == nil || $board[y][x-1].color != @color
+    end
+    if x+1 < 8 && y-1 >= 0
+      possible_moves << [x+1,y-1] if $board[y-1][x+1] == nil || $board[y-1][x+1].color != @color
+    end
+    if x+1 < 8 && y+1 < 8
+      possible_moves << [x+1,y+1] if $board[y+1][x+1] == nil || $board[y+1][x+1].color != @color
+    end
+    if x-1 >= 0 && y-1 >= 0
+      possible_moves << [x-1,y-1] if $board[y-1][x-1] == nil || $board[y-1][x-1].color != @color
+    end
+    if x-1 >= 0 && y+1 < 8
+      possible_moves << [x-1,y+1] if $board[y+1][x-1] == nil || $board[y+1][x-1].color != @color
+    end
+    possible_moves = valid_move_check(possible_moves)
+    return possible_moves
   end
 end
 class Pawn   # Pw
@@ -234,6 +265,7 @@ def move_piece(from,to)
     $board[from[1]][from[0]] = nil
   ##############################################
   else
+    copypeice.position = [x,y]############################################################# this might be backwards...
     $board[x][y] = copypeice
     $board[from[1]][from[0]] = nil
   end
@@ -244,13 +276,13 @@ int_setup                     #populate board with objects (peices)
 display_board
 
 #testing pawn things...
-x=2
-y=1
-puts "\n possible moves for x:#{x},y:#{y}"
-print $board[y][x].possible_moves # y,x
+x=4
+y=7
+puts "\n possible moves for peice at x:#{x},y:#{y}"
+print $board[y][x].possible_moves
 puts "\n"
 
-move_piece([2,6],[2,2])
+move_piece([4,7],[7,2])
 display_board
-puts "\n possible moves for x:#{x},y:#{y}"
-print $board[y][x].possible_moves
+puts "\n possible moves for for peice at x:#{x},y:#{y}"
+print $board[2][7].possible_moves
