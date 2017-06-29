@@ -89,20 +89,43 @@ class Pawn   # Pw
   attr_accessor :position,:color
   def initialize(position,color)
     @position  = position  # [x,y] array
+    @color     = color
     @name      = "Pw#{color}"
+    @int_pos   = position
   end
   def name
     return @name
   end
-end
-
-def spot_taken(position)
-  if position != nil
-    return false
-  else
-    return true
+  def possible_moves
+    y = @position[0]
+    x = @position[1]
+    possible_moves = []
+    #first move possibility
+    if $board[y+1][x] == nil
+      if @int_pos == @position
+        possible_moves << [x,y+2]
+      end
+    end
+    #normal move possibility
+    if $board[y+1][x] == nil
+      possible_moves << [x,y+1]
+    end
+    #attack move possibility
+    if $board[y+1][x+1] != nil
+      if $board[y+1][x+1].color != @color
+        possible_moves << [x+1,y+1]
+      end
+    end
+    if $board[y+1][x-1] != nil
+      if $board[y+1][x-1].color != @color
+        possible_moves << [x-1,y+1]
+      end
+    end
+    possible_moves = valid_move_check(possible_moves)
+    return possible_moves
   end
 end
+
 def color_of_peice(position)
   return position[-1]
 end
@@ -135,10 +158,10 @@ def create_game_board
   end
   return board
 end
-def display_board(board)
-  print "  0   1   2   3   4   5   6   7"
+def display_board
+  print "\n  0   1   2   3   4   5   6   7"
   count = 0
-  board.each do |row|
+  $board.each do |row|
     puts "\n -------------------------------- "
     row.each do |node|
       if node == nil
@@ -152,71 +175,85 @@ def display_board(board)
   end
   puts "\n -------------------------------- "
   print "  0   1   2   3   4   5   6   7"
-  puts "\n\n _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-\n\n"
+  puts "\n\n _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-\n"
 end
-def int_setup(board)
+def int_setup
   #populate board   last part of name designates B=black W=white
-  counter = 0
   #place Rooks
-  rook = Rook.new([0][0],'B')
-  board[0][0] =  rook
-  rook = Rook.new([0][7],'B')
-  board[0][7] = rook
-  rook = Rook.new([7][0],'W')
-  board[7][0] = rook
-  rook = Rook.new([7][7],'W')
-  board[7][7] = rook
+  rook = Rook.new([0,0],'B')
+  $board[0][0] =  rook
+  rook = Rook.new([0,7],'B')
+  $board[0][7] = rook
+  rook = Rook.new([7,0],'W')
+  $board[7][0] = rook
+  rook = Rook.new([7,7],'W')
+  $board[7][7] = rook
   #place knights
-  knight = Knight.new([0][1],'B')
-  board[0][1] = knight
-  knight = Knight.new([0][6],'B')
-  board[0][6] = knight
-  knight = Knight.new([7][1],'W')
-  board[7][1] = knight
-  knight = Knight.new([7][6],'W')
-  board[7][6] = knight
+  knight = Knight.new([0,1],'B')
+  $board[0][1] = knight
+  knight = Knight.new([0,6],'B')
+  $board[0][6] = knight
+  knight = Knight.new([7,1],'W')
+  $board[7][1] = knight
+  knight = Knight.new([7,6],'W')
+  $board[7][6] = knight
   #place bishops
-  bishop = Bishop.new([0][2],'B')
-  board[0][2] = bishop
-  bishop = Bishop.new([0][5],'B')
-  board[0][5] = bishop
-  bishop = Bishop.new([7][2],'W')
-  board[7][2] = bishop
-  bishop = Bishop.new([7][5],'W')
-  board[7][5] = bishop
+  bishop = Bishop.new([0,2],'B')
+  $board[0][2] = bishop
+  bishop = Bishop.new([0,5],'B')
+  $board[0][5] = bishop
+  bishop = Bishop.new([7,2],'W')
+  $board[7][2] = bishop
+  bishop = Bishop.new([7,5],'W')
+  $board[7][5] = bishop
   #place queens
-  queen = Queen.new([0][3],'B')
-  board[0][3] = queen
-  queen = Queen.new([7][3],'W')
-  board[7][3] = queen
+  queen = Queen.new([0,3],'B')
+  $board[0][3] = queen
+  queen = Queen.new([7,3],'W')
+  $board[7][3] = queen
   #place kings
-  king = King.new([0][4],'B')
-  board[0][4] = king
-  king = King.new([7][4],'W')
-  board[7][4] = king
+  king = King.new([0,4],'B')
+  $board[0][4] = king
+  king = King.new([7,4],'W')
+  $board[7][4] = king
   #place pawns
-  board[1].each do |place_pawn|
-    pawn = Pawn.new([1][counter],'B')
-    board[1][counter] = pawn
-    pawn = Pawn.new([6][counter],'W')
-    board[6][counter] = pawn
+  counter = 0
+  8.times do
+    pawn = Pawn.new([1,counter],'B')
+    $board[1][counter] = pawn
+    pawn = Pawn.new([6,counter],'W')
+    $board[6][counter] = pawn
     counter += 1
   end
 end
-def move_piece(board,from,to)
+def move_piece(from,to)
   x = from[1]
   y = from[0]
-  copypeice = board[x][y]
-  board[x][y] = nil
+  copypeice = $board[x][y]
+  $board[x][y] = nil
   ########################################
   x = to[1]
   y = to[0]
-  board[x][y] = copypeice
+  $board[x][y] = copypeice
 end
-#new empty board 8x8
-board = create_game_board
-#populate board object's   last part of name designates B=black W=white..
-int_setup(board)
-display_board(board)
-move_piece(board,[0,1],[0,3])
-display_board(board)
+
+$board = create_game_board    #new empty board 8x8 Global
+int_setup                     #populate board with objects (peices)
+display_board
+
+#testing pawn things...
+x=2
+y=1
+puts "\n possible moves for x:#{x},y:#{y}"
+print $board[y][x].possible_moves # y,x
+puts "\n"
+
+move_piece([2,6],[2,2])
+display_board
+puts "\n possible moves for x:#{x},y:#{y}"
+print $board[y][x].possible_moves
+
+move_piece([2,2],[1,2])
+display_board
+puts "\n possible moves for x:#{x},y:#{y}"
+print $board[y][x].possible_moves
