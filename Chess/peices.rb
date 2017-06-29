@@ -7,16 +7,18 @@ class Knight # Kn
   def name
     return @name
   end
-  def posible_moves(position = @position)
+  def posible_moves
+    x = @position[0]
+    y = @position[1]
       possible_moves = []
-      possible_moves[0] = [position[0] + 2,position[1] + 1]
-      possible_moves[1] = [position[0] + 2,position[1] - 1]
-      possible_moves[2] = [position[0] - 2,position[1] + 1]
-      possible_moves[3] = [position[0] - 2,position[1] - 1]
-      possible_moves[4] = [position[0] + 1,position[1] + 2]
-      possible_moves[5] = [position[0] - 1,position[1] + 2]
-      possible_moves[6] = [position[0] + 1,position[1] - 2]
-      possible_moves[7] = [position[0] - 1,position[1] - 2]
+      possible_moves[0] = [x + 2, y + 1]
+      possible_moves[1] = [x + 2, y - 1]
+      possible_moves[2] = [x - 2, y + 1]
+      possible_moves[3] = [x - 2, y - 1]
+      possible_moves[4] = [x + 1, y + 2]
+      possible_moves[5] = [x - 1, y + 2]
+      possible_moves[6] = [x + 1, y - 2]
+      possible_moves[7] = [x - 1, y - 2]
       return possible_moves
   end
 end
@@ -149,6 +151,8 @@ def display_board(board)
     count += 1
   end
   puts "\n -------------------------------- "
+  print "  0   1   2   3   4   5   6   7"
+  puts "\n\n _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-\n\n"
 end
 def int_setup(board)
   #populate board   last part of name designates B=black W=white
@@ -199,10 +203,20 @@ def int_setup(board)
     counter += 1
   end
 end
-
+def move_piece(board,from,to)
+  x = from[1]
+  y = from[0]
+  copypeice = board[x][y]
+  board[x][y] = nil
+  ########################################
+  x = to[1]
+  y = to[0]
+  board[x][y] = copypeice
+end
 #new empty board 8x8
 board = create_game_board
-#populate board   last part of name designates B=black W=white
-#will make each thing a peice... node ... obj?!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+#populate board object's   last part of name designates B=black W=white..
 int_setup(board)
+display_board(board)
+move_piece(board,[0,1],[0,3])
 display_board(board)
