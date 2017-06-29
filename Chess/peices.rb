@@ -66,13 +66,10 @@ class Bishop # Bi
   end
 end
 class Queen  # Qu
-  attr_accessor :position,:color
+  attr_accessor :position,:color,:name
   def initialize(position,color)
     @position  = position  # [x,y] array
     @name      = "Qu#{color}"
-  end
-  def name
-    return @name
   end
 end
 class King   # Ki
@@ -86,15 +83,13 @@ class King   # Ki
   end
 end
 class Pawn   # Pw
-  attr_accessor :position,:color
+  attr_accessor :position,:color,:type,:name
   def initialize(position,color)
     @position  = position  # [x,y] array
     @color     = color
     @name      = "Pw#{color}"
     @int_pos   = position
-  end
-  def name
-    return @name
+    @type      = 'pawn'
   end
   def possible_moves
     y = @position[0]
@@ -126,9 +121,6 @@ class Pawn   # Pw
   end
 end
 
-def color_of_peice(position)
-  return position[-1]
-end
 def valid_move_check(possible_moves)
   valid_moves = []
   possible_moves.each do |x_and_y|
@@ -227,14 +219,24 @@ def int_setup
   end
 end
 def move_piece(from,to)
+  ##### just copying the peice ###########
   x = from[1]
   y = from[0]
   copypeice = $board[x][y]
-  $board[x][y] = nil
-  ########################################
+  ##############################################
   x = to[1]
-  y = to[0]
-  $board[x][y] = copypeice
+  y = to[0] # the x and y order is confuseing...
+  ######## special case needed for pawn ########
+  puts "\n checking x:#{x},y:#{y}"
+  if (x == 0 || x == 7) && ($board[from[1]][from[0]].type == 'pawn')
+    queen = Queen.new([y,x],$board[from[1]][from[0]].color)
+    $board[x][y] = queen
+    $board[from[1]][from[0]] = nil
+  ##############################################
+  else
+    $board[x][y] = copypeice
+    $board[from[1]][from[0]] = nil
+  end
 end
 
 $board = create_game_board    #new empty board 8x8 Global
@@ -249,11 +251,6 @@ print $board[y][x].possible_moves # y,x
 puts "\n"
 
 move_piece([2,6],[2,2])
-display_board
-puts "\n possible moves for x:#{x},y:#{y}"
-print $board[y][x].possible_moves
-
-move_piece([2,2],[1,2])
 display_board
 puts "\n possible moves for x:#{x},y:#{y}"
 print $board[y][x].possible_moves
