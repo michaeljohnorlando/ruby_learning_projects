@@ -2,14 +2,11 @@
 # Every peice knows where its what color it is and where it can move to #
 #########################################################################
 class Knight # Kn
-  attr_accessor :position,:color
+  attr_accessor :position,:color,:name
   def initialize(position,color)
     @position  = position  # [x,y] array
     @name      = "Kn#{color}"
     @color     = color
-  end
-  def name
-    return @name
   end
   def possible_moves
     y = @position[0]
@@ -52,14 +49,11 @@ class Knight # Kn
   end
 end
 class Rook   # Ro
-  attr_accessor :position,:color
+  attr_accessor :position,:color,:name
   def initialize(position,color)
     @position  = position  # [x,y] array
     @name      = "Ro#{color}"
     @color     = color
-  end
-  def name
-    return @name
   end
   def possible_moves
     y = @position[0]
@@ -151,7 +145,7 @@ class Queen  # Qu
       possible_moves << [x,y-i] if $board[y-i][x] == nil || $board[y-i][x].color != @color
     end
     if x+i < 8 && right == false #right
-      right = true if $board[y][x+i] == nil
+      right = true if $board[y][x+i] != nil
       possible_moves << [x+i,y] if $board[y][x+i] == nil || $board[y][x+i].color != @color
     end
     if x-i >= 0 && left == false # left
@@ -180,7 +174,7 @@ class Queen  # Qu
     return possible_moves
   end
 end
-class King   # Ki    (need to go back to... all possible_moves needed to check if moveing into check...)
+class King   # Ki    (if moveing into check with king needs fixing...)
   attr_accessor :position,:color,:name
   def initialize(position,color)
     @position  = position  # [x,y] array
@@ -216,6 +210,39 @@ class King   # Ki    (need to go back to... all possible_moves needed to check i
       possible_moves << [x-1,y+1] if $board[y+1][x-1] == nil || $board[y+1][x-1].color != @color
     end
     possible_moves = valid_move_check(possible_moves)
+    #################################
+    # check if moveing into check...#
+    #################################
+    # 1 itirate through every peice on the board that is not the same color
+    pieces = []
+    cant_go_here = []
+    check_array = []
+    $board.each do |row|
+      row.each do |piece|
+        if piece != nil && piece.color != @color
+          pieces << piece
+        end
+      end
+    end
+    # 2 store their possible_moves in an single array  ... cant add other king well... untill this is done
+    pieces.each do |piece|
+      cant_go_here << piece.possible_moves if piece.name != 'KiB' || piece.name != 'KiW'
+    end
+    cant_go_here.each do |moves_for_piece|
+      moves_for_piece.each do |move|
+        check_array << move if move != nil
+      end
+    end
+    check_array = check_array.uniq
+    #puts "#{check_array} \n\n #{possible_moves} \n\n"
+    check_array.each do |cant_go_here|
+      possible_moves.each do |want_to_go_here|
+        possible_moves.delete(cant_go_here) if  cant_go_here == want_to_go_here
+      end
+    end
+    # 3 remove kings possible_moves if there are matches
+
+
     return possible_moves
   end
 end
@@ -387,14 +414,19 @@ int_setup                     #populate board with objects (peices)
 display_board
 
 #testing the peice things...
-x=2
-y=5
-move_piece([1,7],[2,5])
+x=4
+y=7
 puts "\n possible moves for peice at x:#{x},y:#{y}"
 print $board[y][x].possible_moves
 puts "\n"
 
-move_piece([0,6],[1,4])
+move_piece([4,6],[4,4])
+move_piece([2,0],[0,2])
+move_piece([5,6],[5,5])
 display_board
 puts "\n possible moves for for peice at x:#{x},y:#{y}"
 print $board[y][x].possible_moves
+
+move_piece([3,7],[4,5])
+display_board
+print $board[5][4].possible_moves
