@@ -1,3 +1,6 @@
+#########################################################################
+# Every peice knows where its what color it is and where it can move to #
+#########################################################################
 class Knight # Kn
   attr_accessor :position,:color
   def initialize(position,color)
@@ -8,18 +11,43 @@ class Knight # Kn
   def name
     return @name
   end
-  def posible_moves
-    x = @position[0]
-    y = @position[1]
-      possible_moves = []
-      possible_moves[0] = [x + 2, y + 1]
-      possible_moves[1] = [x + 2, y - 1]
-      possible_moves[2] = [x - 2, y + 1]
-      possible_moves[3] = [x - 2, y - 1]
-      possible_moves[4] = [x + 1, y + 2]
-      possible_moves[5] = [x - 1, y + 2]
-      possible_moves[6] = [x + 1, y - 2]
-      possible_moves[7] = [x - 1, y - 2]
+  def possible_moves
+    y = @position[0]
+    x = @position[1]
+      possible_moves = [] #... there are 8 possibilitys
+      if y+1 < 8 && x+2 < 8
+        location = $board[y+1][x+2]
+        possible_moves << [x+2,y+1] if location == nil || location.color != @color
+      end
+      if y-1 >= 0 && x+2 < 8
+        location = $board[y-1][x+2]
+        possible_moves << [x+2,y-1] if location == nil || location.color != @color
+      end
+      if y+1 < 8 && x-2 >= 0
+        location = $board[y+1][x-2]
+        possible_moves << [x-2,y+1] if location == nil || location.color != @color
+      end
+      if y-1 >= 0 && x-2 >= 0
+        location = $board[y-1][x-2]
+        possible_moves << [x-2,y-1] if location == nil || location.color != @color
+      end
+      if y+2 < 8 && x+1 < 8
+        location = $board[y+2][x+1]
+        possible_moves << [x+1,y+2] if location == nil || location.color != @color
+      end
+      if y+2 < 8 && x-1 >= 0
+        location = $board[y+2][x-1]
+        possible_moves << [x-1,y+2] if location == nil || location.color != @color
+      end
+      if y-2 >= 0 && x+1 < 8
+        location = $board[y-2][x+1]
+        possible_moves << [x+1,y-2] if location == nil || location.color != @color
+      end
+      if y-2 >= 0 && x-1 >= 0
+        location = $board[y-2][x-1]
+        possible_moves << [x-1,y-2] if location == nil || location.color != @color
+      end
+      possible_moves = valid_move_check(possible_moves)
       return possible_moves
   end
 end
@@ -191,7 +219,7 @@ class King   # Ki    (need to go back to... all possible_moves needed to check i
     return possible_moves
   end
 end
-class Pawn   # Pw
+class Pawn   # Pw    (has a special case in move_piece function)
   attr_accessor :position,:color,:type,:name
   def initialize(position,color)
     @position  = position  # [x,y] array
@@ -229,7 +257,9 @@ class Pawn   # Pw
     return possible_moves
   end
 end
-
+################################################
+#  Helper functions                            #
+################################################
 def valid_move_check(possible_moves)
   valid_moves = []
   possible_moves.each do |x_and_y|
@@ -348,14 +378,18 @@ def move_piece(from,to)
     $board[from[1]][from[0]] = nil
   end
 end
+###########################################################
+# Testing / game play                                     #
+###########################################################
 
 $board = create_game_board    #new empty board 8x8 Global
 int_setup                     #populate board with objects (peices)
 display_board
 
 #testing the peice things...
-x=0
-y=7
+x=2
+y=5
+move_piece([1,7],[2,5])
 puts "\n possible moves for peice at x:#{x},y:#{y}"
 print $board[y][x].possible_moves
 puts "\n"
