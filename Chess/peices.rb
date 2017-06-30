@@ -3,6 +3,7 @@ class Knight # Kn
   def initialize(position,color)
     @position  = position  # [x,y] array
     @name      = "Kn#{color}"
+    @color     = color
   end
   def name
     return @name
@@ -27,6 +28,7 @@ class Rook   # Ro
   def initialize(position,color)
     @position  = position  # [x,y] array
     @name      = "Ro#{color}"
+    @color     = color
   end
   def name
     return @name
@@ -72,6 +74,51 @@ class Queen  # Qu
     @position  = position  # [x,y] array
     @name      = "Qu#{color}"
     @color     = color
+  end
+  def possible_moves
+    y = @position[0]
+    x = @position[1]
+    # stops cheking in that ditrection when specific conditions are true
+    up  = down = left = right = false
+    diag_up_r = diag_up_l = diag_dw_r = diag_dw_l = false
+    possible_moves = []
+    1.upto(7) do |i|
+    if y+i < 8 && down == false #down
+      down = true if $board[y+i][x] != nil
+      possible_moves << [x,y+i] if $board[y+i][x] == nil || $board[y+i][x].color != @color
+    end
+    if y-i >= 0 && up == false #Up
+      up = true if $board[y-i][x] != nil
+      possible_moves << [x,y-i] if $board[y-i][x] == nil || $board[y-i][x].color != @color
+    end
+    if x+i < 8 && right == false #right
+      right = true if $board[y][x+i] == nil
+      possible_moves << [x+i,y] if $board[y][x+i] == nil || $board[y][x+i].color != @color
+    end
+    if x-i >= 0 && left == false # left
+      left = true if $board[y][x-i] != nil
+      possible_moves << [x-i,y] if $board[y][x-i] == nil || $board[y][x-i].color != @color
+    end
+    if x+i < 8 && y-i >= 0 && diag_up_r == false #diagonal up right
+      diag_up_r = true if $board[y-i][x+i] != nil
+      possible_moves << [x+i,y-i] if $board[y-i][x+i] == nil || $board[y-i][x+i].color != @color
+    end
+    if x+i < 8 && y+i < 8 && diag_dw_r == false #diagonal down right
+      diag_dw_r = true if $board[y+i][x+i] != nil
+      possible_moves << [x+i,y+i] if $board[y+i][x+i] == nil || $board[y+i][x+i].color != @color
+    end
+    if x-i >= 0 && y-i >= 0 && diag_up_l == false #diagonal up left 1,5
+      diag_up_l = true if $board[y-i][x-i] != nil
+      possible_moves << [x-i,y-i] if $board[y-i][x-i] == nil || $board[y-i][x-i].color != @color
+    end
+    if x-i >= 0 && y+i < 8 && diag_dw_l == false #diagonal down left
+      diag_dw_l = true if $board[y+i][x-i] != nil
+      possible_moves << [x-i,y+i] if $board[y+i][x-i] == nil || $board[y+i][x-i].color != @color
+    end
+    end
+    possible_moves = valid_move_check(possible_moves)
+    possible_moves = possible_moves.uniq
+    return possible_moves
   end
 end
 class King   # Ki    (need to go back to... all possible_moves needed to check if moveing into check...)
@@ -275,14 +322,24 @@ $board = create_game_board    #new empty board 8x8 Global
 int_setup                     #populate board with objects (peices)
 display_board
 
-#testing pawn things...
-x=4
+#testing the peice things...
+x=3
 y=7
 puts "\n possible moves for peice at x:#{x},y:#{y}"
 print $board[y][x].possible_moves
 puts "\n"
 
-move_piece([4,7],[7,2])
+move_piece([3,6],[3,4])
 display_board
 puts "\n possible moves for for peice at x:#{x},y:#{y}"
-print $board[2][7].possible_moves
+print $board[y][x].possible_moves
+
+move_piece([3,4],[5,5])
+display_board
+puts "\n possible moves for for peice at x:#{x},y:#{y}"
+print $board[y][x].possible_moves
+
+move_piece([2,6],[2,4])
+display_board
+puts "\n possible moves for for peice at x:#{x},y:#{y}"
+print $board[y][x].possible_moves
