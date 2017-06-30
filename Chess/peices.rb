@@ -487,7 +487,10 @@ def player_move
     move_piece(from,to)
     display_board
   end
-  puts "whyyy is it still going???"
+  exit # this will exit the function but the return below wont...
+  return puts "return will not exit def?... WHY?"
+  # it keeps going to line 469? why?... only if
+  # I call the function inside the function
 end
 ###########################################################                                 #
 #On chess. "It's a useful mental exercise. Through the    #
