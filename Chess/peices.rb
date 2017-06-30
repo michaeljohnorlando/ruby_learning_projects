@@ -58,14 +58,39 @@ class Rook   # Ro
   end
 end
 class Bishop # Bi
-  attr_accessor :position,:color
+  attr_accessor :position,:color,:name
   def initialize(position,color)
     @position  = position  # [x,y] array
     @name      = "Bi#{color}"
     @color     = color
   end
-  def name
-    return @name
+  def possible_moves
+    y = @position[0]
+    x = @position[1]
+    # stops cheking in that ditrection when specific conditions are true
+    diag_up_r = diag_up_l = diag_dw_r = diag_dw_l = false
+    possible_moves = []
+    1.upto(7) do |i|
+      if x+i < 8 && y-i >= 0 && diag_up_r == false #diagonal up right
+        diag_up_r = true if $board[y-i][x+i] != nil
+        possible_moves << [x+i,y-i] if $board[y-i][x+i] == nil || $board[y-i][x+i].color != @color
+      end
+      if x+i < 8 && y+i < 8 && diag_dw_r == false #diagonal down right
+        diag_dw_r = true if $board[y+i][x+i] != nil
+        possible_moves << [x+i,y+i] if $board[y+i][x+i] == nil || $board[y+i][x+i].color != @color
+      end
+      if x-i >= 0 && y-i >= 0 && diag_up_l == false #diagonal up left 1,5
+        diag_up_l = true if $board[y-i][x-i] != nil
+        possible_moves << [x-i,y-i] if $board[y-i][x-i] == nil || $board[y-i][x-i].color != @color
+      end
+      if x-i >= 0 && y+i < 8 && diag_dw_l == false #diagonal down left
+        diag_dw_l = true if $board[y+i][x-i] != nil
+        possible_moves << [x-i,y+i] if $board[y+i][x-i] == nil || $board[y+i][x-i].color != @color
+      end
+    end
+    possible_moves = valid_move_check(possible_moves)
+    possible_moves = possible_moves.uniq
+    return possible_moves
   end
 end
 class Queen  # Qu
@@ -323,23 +348,13 @@ int_setup                     #populate board with objects (peices)
 display_board
 
 #testing the peice things...
-x=3
+x=2
 y=7
 puts "\n possible moves for peice at x:#{x},y:#{y}"
 print $board[y][x].possible_moves
 puts "\n"
 
 move_piece([3,6],[3,4])
-display_board
-puts "\n possible moves for for peice at x:#{x},y:#{y}"
-print $board[y][x].possible_moves
-
-move_piece([3,4],[5,5])
-display_board
-puts "\n possible moves for for peice at x:#{x},y:#{y}"
-print $board[y][x].possible_moves
-
-move_piece([2,6],[2,4])
 display_board
 puts "\n possible moves for for peice at x:#{x},y:#{y}"
 print $board[y][x].possible_moves
