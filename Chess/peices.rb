@@ -33,28 +33,34 @@ class Rook   # Ro
   def name
     return @name
   end
-  def posible_moves(board)
-    x = @position[0]
-    y = @position[1]
+  def possible_moves
+    y = @position[0]
+    x = @position[1]
+    # stops cheking in that ditrection when specific conditions are true
+    up  = down = left = right = false
+    diag_up_r = diag_up_l = diag_dw_r = diag_dw_l = false
     possible_moves = []
-    while count < 8 #7 max in any direction
-      #up
-      position = [x,(y + count)]
-      if spot_taken(position) == false
-        possible_moves << position
+    1.upto(7) do |i|
+      if y+i < 8 && down == false #down
+        down = true if $board[y+i][x] != nil
+        possible_moves << [x,y+i] if $board[y+i][x] == nil || $board[y+i][x].color != @color
       end
-      #down
-      if spot_taken([x,(y + count* -1)]) == false
-        possible_moves << [x,(y  + (count* -1))]
+      if y-i >= 0 && up == false #Up
+        up = true if $board[y-i][x] != nil
+        possible_moves << [x,y-i] if $board[y-i][x] == nil || $board[y-i][x].color != @color
       end
-      #right
-      possible_moves << [(x + count),y]
-      #left
-      possible_moves << [x + (count* -1),y]
-      count += 1
-      possible_moves = valid_move_check(possible_moves)
-      return possible_moves
+      if x+i < 8 && right == false #right
+        right = true if $board[y][x+i] == nil
+        possible_moves << [x+i,y] if $board[y][x+i] == nil || $board[y][x+i].color != @color
+      end
+      if x-i >= 0 && left == false # left
+        left = true if $board[y][x-i] != nil
+        possible_moves << [x-i,y] if $board[y][x-i] == nil || $board[y][x-i].color != @color
+      end
     end
+    possible_moves = valid_move_check(possible_moves)
+    possible_moves = possible_moves.uniq
+    return possible_moves
   end
 end
 class Bishop # Bi
@@ -348,13 +354,13 @@ int_setup                     #populate board with objects (peices)
 display_board
 
 #testing the peice things...
-x=2
+x=0
 y=7
 puts "\n possible moves for peice at x:#{x},y:#{y}"
 print $board[y][x].possible_moves
 puts "\n"
 
-move_piece([3,6],[3,4])
+move_piece([0,6],[1,4])
 display_board
 puts "\n possible moves for for peice at x:#{x},y:#{y}"
 print $board[y][x].possible_moves
