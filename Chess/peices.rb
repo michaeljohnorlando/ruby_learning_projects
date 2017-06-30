@@ -259,25 +259,56 @@ class Pawn   # Pw    (has a special case in move_piece function)
     y = @position[0]
     x = @position[1]
     possible_moves = []
-    #first move possibility
-    if $board[y+1][x] == nil
-      if @int_pos == @position
-        possible_moves << [x,y+2]
+    ##############
+    # Going down #
+    ##############
+    if @color == 'B'
+      #first move possibility
+      if $board[y+1][x] == nil
+        if @int_pos == @position
+          possible_moves << [x,y+2]
+        end
+      end
+      #normal move possibility
+      if $board[y+1][x] == nil
+        possible_moves << [x,y+1]
+      end
+      #attack move possibility
+      if $board[y+1][x+1] != nil
+        if $board[y+1][x+1].color != @color
+          possible_moves << [x+1,y+1]
+        end
+      end
+      if $board[y+1][x-1] != nil
+        if $board[y+1][x-1].color != @color
+          possible_moves << [x-1,y+1]
+        end
       end
     end
-    #normal move possibility
-    if $board[y+1][x] == nil
-      possible_moves << [x,y+1]
-    end
-    #attack move possibility
-    if $board[y+1][x+1] != nil
-      if $board[y+1][x+1].color != @color
-        possible_moves << [x+1,y+1]
+    ##############
+    # Going UP   #
+    ##############
+    if @color == 'W'
+      #first move possibility
+      if $board[y-1][x] == nil
+        if @int_pos == @position
+          possible_moves << [x,y-2]
+        end
       end
-    end
-    if $board[y+1][x-1] != nil
-      if $board[y+1][x-1].color != @color
-        possible_moves << [x-1,y+1]
+      #normal move possibility
+      if $board[y-1][x] == nil
+        possible_moves << [x,y-1]
+      end
+      #attack move possibility
+      if $board[y-1][x+1] != nil
+        if $board[y-1][x+1].color != @color
+          possible_moves << [x+1,y-1]
+        end
+      end
+      if $board[y-1][x-1] != nil
+        if $board[y-1][x-1].color != @color
+          possible_moves << [x-1,y-1]
+        end
       end
     end
     possible_moves = valid_move_check(possible_moves)
@@ -405,28 +436,39 @@ def move_piece(from,to)
     $board[from[1]][from[0]] = nil
   end
 end
-###########################################################
-# Testing / game play                                     #
+###########################################################                                 #
+#On chess. "It's a useful mental exercise. Through the    #
+#years, many thinkers have been fascinated by it. But I   #
+#don't enjoy playing... Because it was a game that was    #
+#born during a brutal age when life counted for little.   #
+#Everyone believed that some people were worth more than  #
+#others. Kings. Pawns. I don't think that anyone is worth #
+#more than anyone else... Chess is just a game. Real      #
+#people are not pieces. You can't assign more value to    #
+#some of them and not others. Not to me. Not to anyone.   #
+#People are not a thing that you can sacrifice. The lesson#
+#is, if anyone who looks on to the world as if it is a    #
+#game of chess, deserves to lose. "                       #
 ###########################################################
 
 $board = create_game_board    #new empty board 8x8 Global
 int_setup                     #populate board with objects (peices)
 display_board
 
+puts "\n select the peice you want to move"
+print "x:"
+peice_selection_x = gets.chomp
+peice_selection_x = peice_selection_x.to_i
+print "y:"
+peice_selection_y = gets.chomp
+peice_selection_y = peice_selection_y.to_i
+puts "that peices possible moves are #{$board[peice_selection_y][peice_selection_x].possible_moves}"
+
+
 #testing the peice things...
 x=4
 y=7
-puts "\n possible moves for peice at x:#{x},y:#{y}"
-print $board[y][x].possible_moves
-puts "\n"
-
-move_piece([4,6],[4,4])
-move_piece([2,0],[0,2])
-move_piece([5,6],[5,5])
-display_board
-puts "\n possible moves for for peice at x:#{x},y:#{y}"
-print $board[y][x].possible_moves
-
-move_piece([3,7],[4,5])
-display_board
-print $board[5][4].possible_moves
+#display_board
+#puts "\n possible moves for for peice at x:#{x},y:#{y}"
+#print $board[y][x].possible_moves
+#move_piece([4,6],[4,4])
