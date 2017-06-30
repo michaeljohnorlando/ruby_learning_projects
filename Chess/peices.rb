@@ -7,6 +7,7 @@ class Knight # Kn
     @position  = position  # [x,y] array
     @name      = "Kn#{color}"
     @color     = color
+    @type      = 'Knight'
   end
   def possible_moves
     y = @position[0]
@@ -54,6 +55,7 @@ class Rook   # Ro
     @position  = position  # [x,y] array
     @name      = "Ro#{color}"
     @color     = color
+    @type      = 'Rook'
   end
   def possible_moves
     y = @position[0]
@@ -91,6 +93,7 @@ class Bishop # Bi
     @position  = position  # [x,y] array
     @name      = "Bi#{color}"
     @color     = color
+    @type      = 'Bishop'
   end
   def possible_moves
     y = @position[0]
@@ -127,6 +130,7 @@ class Queen  # Qu
     @position  = position  # [x,y] array
     @name      = "Qu#{color}"
     @color     = color
+    @type      = 'Queen'
   end
   def possible_moves
     y = @position[0]
@@ -180,6 +184,7 @@ class King   # Ki    (if moveing into check with king needs fixing...)
     @position  = position  # [x,y] array
     @name      = "Ki#{color}"
     @color     = color
+    @type      = 'King'
   end
   def possible_moves
     y = @position[0]
@@ -424,17 +429,65 @@ def move_piece(from,to)
   x = to[1]
   y = to[0] # the x and y order is confuseing...
   ######## special case needed for pawn ########
-  puts "\n checking x:#{x},y:#{y}"
   if (x == 0 || x == 7) && ($board[from[1]][from[0]].type == 'pawn')
     queen = Queen.new([y,x],$board[from[1]][from[0]].color)
     $board[x][y] = queen
     $board[from[1]][from[0]] = nil
   ##############################################
   else
-    copypeice.position = [x,y]############################################################# this might be backwards...
+    copypeice.position = [x,y]
     $board[x][y] = copypeice
     $board[from[1]][from[0]] = nil
   end
+end
+def player_move
+  puts "\n select the peice you want to move"
+  print "x:"
+  peice_selection_x = gets.chomp
+  peice_selection_x = peice_selection_x.to_i
+  print "y:"
+  peice_selection_y = gets.chomp
+  peice_selection_y = peice_selection_y.to_i
+  from = [peice_selection_x,peice_selection_y]
+  if $board[peice_selection_y][peice_selection_x] == nil
+    puts '###################################################'
+    puts '# THERE IS NO PIECE THERE --please select a piece #'
+    puts '###################################################'
+    display_board
+    player_move
+  elsif $board[peice_selection_y][peice_selection_x].possible_moves.all? { |e| e == [] }
+    puts '########################################################################'
+    puts '# NO MOVES POSSIBLE for that peice    --please select a diffrent piece #'
+    puts '########################################################################'
+    display_board
+    player_move
+  else
+    puts "that peices possible moves are #{$board[peice_selection_y][peice_selection_x].possible_moves}"
+    possible_moves = $board[peice_selection_y][peice_selection_x].possible_moves
+  end
+  #move the peice
+  puts "\n select where you want to move"
+  print "x:"
+  peice_move_x = gets.chomp
+  peice_move_x = peice_move_x.to_i
+  print "y:"
+  peice_move_y = gets.chomp
+  peice_move_y = peice_move_y.to_i
+  to = [peice_move_x,peice_move_y]
+
+  #check if valid move for that piece
+  if $board[peice_selection_y][peice_selection_x].possible_moves.all? { |e| e != to }
+    puts '####################################'
+    puts '# not a valid move for that peice! #'
+    puts '####################################'
+    display_board
+    player_move
+  else
+    #move the piece
+    move_piece(from,to)
+    display_board
+  end
+  puts "whyyy is it still going???"
 end
 ###########################################################                                 #
 #On chess. "It's a useful mental exercise. Through the    #
@@ -454,15 +507,9 @@ end
 $board = create_game_board    #new empty board 8x8 Global
 int_setup                     #populate board with objects (peices)
 display_board
-
-puts "\n select the peice you want to move"
-print "x:"
-peice_selection_x = gets.chomp
-peice_selection_x = peice_selection_x.to_i
-print "y:"
-peice_selection_y = gets.chomp
-peice_selection_y = peice_selection_y.to_i
-puts "that peices possible moves are #{$board[peice_selection_y][peice_selection_x].possible_moves}"
+player_move
+puts "\n player move done"
+display_board
 
 
 #testing the peice things...
