@@ -1,8 +1,9 @@
+$check = false
 #########################################################################
 # Every peice knows where its what color it is and where it can move to #
 #########################################################################
 class Knight # Kn
-  attr_accessor :position,:color,:name
+  attr_accessor :position,:color,:name, :type
   def initialize(position,color)
     @position  = position  # [x,y] array
     @name      = "Kn#{color}"
@@ -50,7 +51,7 @@ class Knight # Kn
   end
 end
 class Rook   # Ro
-  attr_accessor :position,:color,:name
+  attr_accessor :position,:color,:name, :type
   def initialize(position,color)
     @position  = position  # [x,y] array
     @name      = "Ro#{color}"
@@ -83,12 +84,11 @@ class Rook   # Ro
       end
     end
     possible_moves = valid_move_check(possible_moves)
-    possible_moves = possible_moves.uniq
     return possible_moves
   end
 end
 class Bishop # Bi
-  attr_accessor :position,:color,:name
+  attr_accessor :position,:color,:name, :type
   def initialize(position,color)
     @position  = position  # [x,y] array
     @name      = "Bi#{color}"
@@ -120,12 +120,11 @@ class Bishop # Bi
       end
     end
     possible_moves = valid_move_check(possible_moves)
-    possible_moves = possible_moves.uniq
     return possible_moves
   end
 end
 class Queen  # Qu
-  attr_accessor :position,:color,:name
+  attr_accessor :position,:color,:name, :type
   def initialize(position,color)
     @position  = position  # [x,y] array
     @name      = "Qu#{color}"
@@ -174,12 +173,11 @@ class Queen  # Qu
     end
     end
     possible_moves = valid_move_check(possible_moves)
-    possible_moves = possible_moves.uniq
     return possible_moves
   end
 end
 class King   # Ki    (if moveing into check with king needs fixing...)
-  attr_accessor :position,:color,:name
+  attr_accessor :position,:color,:name, :type
   def initialize(position,color)
     @position  = position  # [x,y] array
     @name      = "Ki#{color}"
@@ -187,8 +185,8 @@ class King   # Ki    (if moveing into check with king needs fixing...)
     @type      = 'King'
   end
   def possible_moves
-    y = @position[0]
-    x = @position[1]
+    y = @position[1]
+    x = @position[0]
     possible_moves = []
     if y+1 < 8
       possible_moves << [x,y+1] if $board[y+1][x] == nil || $board[y+1][x].color != @color
@@ -215,9 +213,15 @@ class King   # Ki    (if moveing into check with king needs fixing...)
       possible_moves << [x-1,y+1] if $board[y+1][x-1] == nil || $board[y+1][x-1].color != @color
     end
     possible_moves = valid_move_check(possible_moves)
-    #################################
-    # check if moveing into check...#
-    #################################
+    check_array = in_check
+    check_array.each do |cant_go_here|
+      possible_moves.each do |want_to_go_here|
+        possible_moves.delete(cant_go_here) if  cant_go_here == want_to_go_here
+      end
+    end
+    return possible_moves
+  end
+  def in_check
     # 1 itirate through every peice on the board that is not the same color
     pieces = []
     cant_go_here = []
@@ -225,31 +229,54 @@ class King   # Ki    (if moveing into check with king needs fixing...)
     $board.each do |row|
       row.each do |piece|
         if piece != nil && piece.color != @color
+          #puts " #{piece.name}// piece.color #{piece.color}   @color #{@color}"
           pieces << piece
         end
       end
     end
-    # 2 store their possible_moves in an single array  ... cant add other king well... untill this is done
+    # 2 store their possible_moves in an single array
     pieces.each do |piece|
-      cant_go_here << piece.possible_moves if piece.name != 'KiB' || piece.name != 'KiW'
+      # if the king is checked it loops endlisly.... with valid move check
+      # ... my x and y messup reults in ugly...
+      cant_go_here << piece.possible_moves if piece.name.chop != 'Ki'
+      if piece.name.chop == 'Ki'
+        y = piece.position[1]
+        x = piece.position[0]
+        other_kings_moves = []
+        if y+1 < 8
+        other_kings_moves << [x,y+1] if $board[y+1][x] == nil || $board[y+1][x].color == @color
+        end
+        if y-1 >= 0
+        other_kings_moves << [x,y-1] if $board[y-1][x] == nil || $board[y-1][x].color == @color
+        end
+        if x+1 < 8
+        other_kings_moves << [x+1,y] if $board[y][x+1] == nil || $board[y][x+1].color == @color
+        end
+        if x-1 >= 0
+        other_kings_moves << [x-1,y] if $board[y][x-1] == nil || $board[y][x-1].color == @color
+        end
+        if x+1 < 8 && y-1 >= 0
+        other_kings_moves << [x+1,y-1] if $board[y-1][x+1] == nil || $board[y-1][x+1].color == @color
+        end
+        if x+1 < 8 && y+1 < 8
+        other_kings_moves << [x+1,y+1] if $board[y+1][x+1] == nil || $board[y+1][x+1].color == @color
+        end
+        if x-1 >= 0 && y-1 >= 0
+        other_kings_moves << [x-1,y-1] if $board[y-1][x-1] == nil || $board[y-1][x-1].color == @color
+        end
+        if x-1 >= 0 && y+1 < 8
+        other_kings_moves << [x-1,y+1] if $board[y+1][x-1] == nil || $board[y+1][x-1].color == @color
+        end
+        cant_go_here << other_kings_moves
+      end
     end
     cant_go_here.each do |moves_for_piece|
       moves_for_piece.each do |move|
         check_array << move if move != nil
       end
     end
-    check_array = check_array.uniq
-    #puts "#{check_array} \n\n #{possible_moves} \n\n"
-    check_array.each do |cant_go_here|
-      possible_moves.each do |want_to_go_here|
-        possible_moves.delete(cant_go_here) if  cant_go_here == want_to_go_here
-      end
-    end
-    # 3 remove kings possible_moves if there are matches
-
-
-    return possible_moves
-  end
+    return check_array
+  end #will not work with check that has a peice defnding it...#########################################
 end
 class Pawn   # Pw    (has a special case in move_piece function)
   attr_accessor :position,:color,:type,:name
@@ -372,7 +399,9 @@ def display_board
   puts "\n\n _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-\n"
 end
 def int_setup
-  #populate board   last part of name designates B=black W=white
+  #################################################################
+  # populate board   last part of name designates B=black W=white #
+  #################################################################
   #place Rooks
   rook = Rook.new([0,0],'B')
   $board[0][0] =  rook
@@ -406,9 +435,9 @@ def int_setup
   queen = Queen.new([7,3],'W')
   $board[7][3] = queen
   #place kings
-  king = King.new([0,4],'B')
+  king = King.new([4,0],'B')
   $board[0][4] = king
-  king = King.new([7,4],'W')
+  king = King.new([4,7],'W')
   $board[7][4] = king
   #place pawns
   counter = 0
@@ -432,16 +461,24 @@ def move_piece(from,to)
   if (x == 0 || x == 7) && ($board[from[1]][from[0]].type == 'pawn')
     queen = Queen.new([y,x],$board[from[1]][from[0]].color)
     $board[x][y] = queen
+    put_opponet_in_check($board[x][y],@color)
     $board[from[1]][from[0]] = nil
   ##############################################
   else
     copypeice.position = [x,y]
     $board[x][y] = copypeice
+    if put_opponet_in_check($board[x][y],@color) == true
+      $check = true
+    else
+      $check = false
+    end
     $board[from[1]][from[0]] = nil
   end
 end
-def player_move
-  puts "\n select the peice you want to move"
+def player_move(color)
+  puts "You are in check!" if $check
+  can_i_move = true
+  puts "\n select the peice you want to move (#{color})"
   print "x:"
   peice_selection_x = gets.chomp
   peice_selection_x = peice_selection_x.to_i
@@ -454,45 +491,109 @@ def player_move
     puts '# THERE IS NO PIECE THERE --please select a piece #'
     puts '###################################################'
     display_board
-    player_move
+    can_i_move = false
+    player_move(color)
+  elsif $board[peice_selection_y][peice_selection_x].color != color
+    puts '########################################################'
+    puts "# THAT is not your  peice... current color is #{color} #"
+    puts '########################################################'
+    display_board
+    can_i_move = false
+    player_move(color)
   elsif $board[peice_selection_y][peice_selection_x].possible_moves.all? { |e| e == [] }
     puts '########################################################################'
     puts '# NO MOVES POSSIBLE for that peice    --please select a diffrent piece #'
     puts '########################################################################'
     display_board
-    player_move
+    can_i_move = false
+    player_move(color)
   else
     puts "that peices possible moves are #{$board[peice_selection_y][peice_selection_x].possible_moves}"
     possible_moves = $board[peice_selection_y][peice_selection_x].possible_moves
   end
-  #move the peice
-  puts "\n select where you want to move"
-  print "x:"
-  peice_move_x = gets.chomp
-  peice_move_x = peice_move_x.to_i
-  print "y:"
-  peice_move_y = gets.chomp
-  peice_move_y = peice_move_y.to_i
-  to = [peice_move_x,peice_move_y]
-
-  #check if valid move for that piece
-  if $board[peice_selection_y][peice_selection_x].possible_moves.all? { |e| e != to }
-    puts '####################################'
-    puts '# not a valid move for that peice! #'
-    puts '####################################'
-    display_board
-    player_move
-  else
-    #move the piece
-    move_piece(from,to)
-    display_board
+  if can_i_move
+    puts "\n select where you want to move "
+    print "x:"
+    peice_move_x = gets.chomp
+    peice_move_x = peice_move_x.to_i
+    print "y:"
+    peice_move_y = gets.chomp
+    peice_move_y = peice_move_y.to_i
+    to = [peice_move_x,peice_move_y]
+    #check if valid move for that piece
+    if $board[peice_selection_y][peice_selection_x].possible_moves.all? { |e| e != to }
+      puts '####################################'
+      puts '# not a valid move for that peice! #'
+      puts '####################################'
+      display_board
+      can_i_move = false
+      player_move(color)
+    elsif $check
+      # if king selected... just allow it to move.... it has its own check testing
+      if $board[peice_selection_y][peice_selection_x].name.chop == 'Ki'
+        #move the piece
+        move_piece(from,to) if can_i_move
+        display_board
+      else
+        $board.each do |row|
+          row.each do |piece|
+            if piece != nil && piece.color == color && piece.name.chop == 'Ki'
+              puts " ARE YOU STILL IN CHECK???"
+              puts " the check array... #{piece.in_check}"
+              #save old position of piece that you are moveing... from
+              save_to   = $board[peice_selection_y][peice_selection_x]
+              save_from = $board[peice_move_y][peice_move_x]
+              move_piece(from,to) if can_i_move
+              if piece.in_check.any? { |e| e == piece.position if piece != nil }
+                puts '###########################'
+                puts '# You are still in check! #'
+                puts '###########################'
+                can_i_move = false
+                # put peices back to saved locations
+                $board[peice_selection_y][peice_selection_x] = save_to
+                $board[peice_move_y][peice_move_x]           = save_from
+                display_board
+                $check = true
+                player_move(color)
+              else
+                if can_i_move
+                  puts "\n this needs to move the peices....\n\n"
+                  display_board
+                  $check = false
+                end
+              end
+            end
+          end
+        end
+      end
+    else
+      #move the piece
+      move_piece(from,to) if can_i_move
+      display_board
+    end
   end
-  exit # this will exit the function but the return below wont...
-  return puts "return will not exit def?... WHY?"
-  # it keeps going to line 469? why?... only if
-  # I call the function inside the function
+  return nil
 end
-###########################################################                                 #
+def change_color(color)
+  return 'B' if color == 'W'
+  return 'W' if color == 'B'
+end
+def put_opponet_in_check(location,color)
+  location.possible_moves.each do |coordinate|
+    x = coordinate[0]
+    y = coordinate[1]
+    if $board[y][x] != nil
+      if $board[y][x].name.chop == 'Ki' && $board[y][x].color != color
+        puts '######################################'
+        puts "# #{$board[y][x].color} is in Check! #"
+        puts '######################################'
+        return true
+      end
+    end
+  end
+end
+
+###########################################################
 #On chess. "It's a useful mental exercise. Through the    #
 #years, many thinkers have been fascinated by it. But I   #
 #don't enjoy playing... Because it was a game that was    #
@@ -509,15 +610,17 @@ end
 
 $board = create_game_board    #new empty board 8x8 Global
 int_setup                     #populate board with objects (peices)
+player_color = 'W'            # w always goes first...
+game_over    = false
 display_board
-player_move
-puts "\n player move done"
-display_board
+while game_over == false
+  player_move(player_color)
+  puts "\n\n   CHECK!  \n" if $check
+  player_color = change_color(player_color)
+end
 
 
 #testing the peice things...
-x=4
-y=7
 #display_board
 #puts "\n possible moves for for peice at x:#{x},y:#{y}"
 #print $board[y][x].possible_moves
