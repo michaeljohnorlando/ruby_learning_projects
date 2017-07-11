@@ -592,6 +592,63 @@ def put_opponet_in_check(location,color)
     end
   end
 end
+def checkmate(color)
+  # 1) if king is in check and cant move
+    # get the king object
+    $board.each do |row|
+      row.each do |peice|
+        if peice != nil
+          if peice.name.chop == 'Ki' && peice.color == color
+            @king = peice
+          end
+        end
+      end
+    end
+  if $check && @king.possible_moves.all? { |e| e == [] }
+    puts "\n\n The KING cannot move and is in check"
+    # 2) check if a peice can take the peice that has you in check
+      # get any piece object that can attack your king
+      @king_killer = []
+      $board.each do |row|
+        row.each do |peice|
+          if peice != nil
+            if peice.possible_moves.any? { |e| e == @king.position }
+              @king_killer << peice
+            end
+          end
+        end
+      end
+      puts "\n the king killers are #{@king_killer}"
+      # Can any peice kill the one that put you in check? (king_killer)
+      @kings_guard = []
+      @king_killer.each do |attacker|
+        $board.each do |row|
+          row.each do |peice|
+            if peice != nil && peice.color == color
+              if peice.possible_moves.any? { |e| e == attacker.position }
+                @kings_guard << peice
+              end
+            end
+          end
+        end
+      end
+      puts "\n the kings guard are #{@kings_guard}"
+    # 3) check if a peice can block the check
+      # the Knight can not be blocked
+      @king_blocker = []
+      @king_killer.each do |attacker|
+        $board.each do |row|
+          row.each do |peice|
+            if peice != nil && peice.color == color && peice.type != 'Knight'
+              # check if moveing any peice to all possible_moves can block
+              if peice.possible_moves.any? { |e| e == @king.position }
+                @king_blocker << peice
+              end
+            end
+          end
+        end
+  end
+end
 
 ###########################################################
 #On chess. "It's a useful mental exercise. Through the    #
@@ -614,10 +671,15 @@ player_color = 'W'            # w always goes first...
 game_over    = false
 display_board
 while game_over == false
+  checkmate(player_color)
   player_move(player_color)
   puts "\n\n   CHECK!  \n" if $check
   player_color = change_color(player_color)
 end
+
+# Can Move into check...
+# castleing is not in it yet
+# YAMEL to make a save file....
 
 
 #testing the peice things...
