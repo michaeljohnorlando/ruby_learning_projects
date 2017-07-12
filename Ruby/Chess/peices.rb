@@ -677,6 +677,7 @@ while game_over == false
   player_color = change_color(player_color)
 end
 
+# for king check left then right ... ect but not horses, surounded?... ect
 # Can Move into check...
 # castleing is not in it yet
 # YAMEL to make a save file....
