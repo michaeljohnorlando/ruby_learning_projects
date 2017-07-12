@@ -42,14 +42,10 @@ def eyncrypt(input,shift)
       letter_to_number << " "
       word.each do |letter|
         # a = 97, z = 122
-          if (letter.ord - cipher_value) > 96 && (letter.ord - cipher_value) < 123
-            if letter.ord + cipher_value > 123
-              letter_to_number << 96 + (123 - (letter.ord + cipher_value))
-            else
-              letter_to_number << letter.ord + cipher_value
-            end
+          if (letter.ord + cipher_value) > 122
+            letter_to_number << 96 + ((letter.ord + cipher_value) - 122)
           else
-              return "How did this happen...?"
+            letter_to_number << letter.ord + cipher_value
           end
       end
   end
