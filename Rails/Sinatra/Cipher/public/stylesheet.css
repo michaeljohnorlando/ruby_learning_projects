@@ -1,0 +1,16 @@
+body{
+  margin: 1%;
+  text-align: center;
+  background: url(https://s-media-cache-ak0.pinimg.com/originals/3a/48/12/3a48120efe47d89b00b7da4ee745c502.jpg) left top repeat;
+}
+p{
+  margin-right: 15%;
+  margin-left:  15%;
+}
+div.transbox {
+  margin: 30px;
+  background-color: #ffffff;
+  border: 1px solid black;
+  opacity: 0.6;
+  filter: alpha(opacity=60); /* For IE8 and earlier */
+}
