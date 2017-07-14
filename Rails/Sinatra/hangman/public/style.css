@@ -1,0 +1,23 @@
+body{
+  margin: 1%;
+  text-align: center;
+  background: url(https://us.123rf.com/450wm/popaukropa/popaukropa1603/popaukropa160300007/53517675-hangman-noose-seamless-pattern-gallows-tree-ornament-rope-for-hanging.jpg?ver=6) left top repeat;
+}
+p{
+  margin-right: 15%;
+  margin-left:  15%;
+}
+div.transbox {
+  margin: 30px;
+  background-color: #ffffff;
+  border: 1px solid black;
+  opacity: 0.6;
+  filter: alpha(opacity=60); /* For IE8 and earlier */
+}
+div.transbox2 {
+  font-size: 40px;
+  margin: 30px;
+  background-color: #ffffff;
+  opacity: 0.6;
+  filter: alpha(opacity=60); /* For IE8 and earlier */
+}

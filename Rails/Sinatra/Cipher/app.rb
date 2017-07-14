@@ -1,11 +1,11 @@
 require 'sinatra'
-require 'sinatra/reloader'
+
 #######################
 # Sinatra (Web brick?)#
 #######################
 get '/' do
-  shift  = params['shift'].to_i
-  input  = params['input']
+  shift  = params['shift'].to_i || 5
+  input  = params['input'] || ""
   output = eyncrypt(input,shift)
   erb :index,
   :locals => {

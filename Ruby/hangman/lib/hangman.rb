@@ -23,7 +23,7 @@ def word_input(human_or_AI) # human choses the word, needs to be >5 letters
         word_in = word_in.downcase
         # puts ".class (#{word_in.class}) // .length (#{word_in.length}) // .to_s.length - 4 (#{word_in.length - 4})" # info for cheking errors
     end
-    
+
     if in_dictionary(word_in) == true && word_in.length > 4 && word_in.length < 12
         word_in
     elsif word_in.length <= 4
@@ -31,19 +31,19 @@ def word_input(human_or_AI) # human choses the word, needs to be >5 letters
         word_input(human_or_AI)
     elsif word_in.length >= 12
         puts "that word is too Hard!...(need less then 11 letters) Try again"
-        word_input(human_or_AI)    
+        word_input(human_or_AI)
     else
         puts "that word is not in the dictonary!... Try again"
         word_input(human_or_AI)
     end
 end
 def random_word_from_dictionary # needs to be >5 letters
-    CSV.read("/home/ubuntu/workspace/hangman/data/dictionary.csv").sample 
+    CSV.read("/home/ubuntu/workspace/hangman/data/dictionary.csv").sample
 end
 def create_blank_word_display(word)
     underscore_array_for_ammount_of_letters = []
     word.length.times do
-        underscore_array_for_ammount_of_letters << "_"
+        underscore_array_for_ammount_of_letters << '_'
     end
     return underscore_array_for_ammount_of_letters
 end
@@ -79,20 +79,20 @@ def save_game(chosen_word,y_or_n = gets.chomp)
         save_name = gets.chomp
         Dir.mkdir("Saved_games") unless Dir.exists?("Saved_games")
         filename = "Saved_games/#{save_name}.csv"
-        
+
         @wrong_letter_choices.each_with_index do |wrong_choice,index|
             if index == @wrong_letter_choices.count - 1
                 File.open(filename,'a') {|file| file << "#{wrong_choice}\n"}
             else
-                File.open(filename,'a') {|file| file << "#{wrong_choice},"} 
-            end              
+                File.open(filename,'a') {|file| file << "#{wrong_choice},"}
+            end
         end
         @blank_word_display.each_with_index do |right_choice,index|
             if index == @blank_word_display.count - 1
                 File.open(filename,'a') {|file| file << "#{right_choice}\n"}
             else
-                File.open(filename,'a') {|file| file << "#{right_choice},"} 
-            end              
+                File.open(filename,'a') {|file| file << "#{right_choice},"}
+            end
         end
         File.open(filename,'a') {|file| file << "#{chosen_word}\n"}
         File.open(filename,'a') {|file| file << "#{@modified_word}"}
@@ -106,7 +106,7 @@ end
 def load_game
     @blank_word_display = []
     @wrong_letter_choices = []
-    
+
     puts "what is the save file name?"
     save_file_name = gets.chomp
     save_file_name = "/home/ubuntu/workspace/hangman/lib/Saved_games/#{save_file_name}.csv"
@@ -116,7 +116,7 @@ def load_game
     end
     #@wrong_letter_choices = @blank_word_display[0]
     #@blank_word_display   = @blank_word_display[1]  # i sorta get it now looks terrible though
-    #@blank_word_display.each {|make_arr| 
+    #@blank_word_display.each {|make_arr|
     print "wrong_letter_choices:#{@blank_word_display[0]}\nblank_word_display:#{@blank_word_display[1]}\nchosen_word:#{@blank_word_display[2]}\nmodified_word:#{@blank_word_display[3]}"
     #print "blank word arr=#{@blank_word_display}\nwrong letter arr=#{@wrong_letter_choices} \n\n"
     @choice = 2
@@ -149,7 +149,7 @@ until @lose == true || @win == true
 
     puts "\n enter your guess:\n"
     letter_position_in_word_display(gets.chomp,@modified_word,chosen_word)
-    
+
     @lose = true  if @wrong_letter_choices.count == 6
     @win  = true  if not(@blank_word_display.include?("_"))
     puts "would you like to save the game?  ((y =yes) (n or enter =no))" if not(@wrong_letter_choices.count == 6) || not(@win == true)

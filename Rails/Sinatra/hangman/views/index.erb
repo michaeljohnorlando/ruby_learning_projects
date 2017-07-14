@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Hangman</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+  </head>
+  <body>
+
+    <div class="transbox">
+      <h1> Hangman,  word = <%=word%></h1>
+      <form>
+        Guess a letter:
+        <input type="text" name="guess"/>
+        <input type="submit" value="Submit">
+      </form>
+    </div>
+
+    <div class="transbox2">
+      <% status.each do |letter| %>
+        <%=  letter %>
+      <% end %>
+      <%=  guess %><br>
+      <%= wrong_guess%>
+    </div>
+
+  </body>
+</html>
