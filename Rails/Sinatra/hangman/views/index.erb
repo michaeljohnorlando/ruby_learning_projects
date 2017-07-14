@@ -19,8 +19,17 @@
       <% status.each do |letter| %>
         <%=  letter %>
       <% end %>
-      <%=  guess %><br>
-      <%= wrong_guess%>
+      <p> Your wrong Guesses: <%= wrong_guess%> </p>
+    </div>
+
+    <div class="transbox2">
+      <% if win_status %>
+        <p><%= 'You Won !! (hit submit again to start a new game)' %></p>
+      <% elsif wrong_guess.count > 5 %>
+          <p><%= 'You Lost !! (hit submit again to start a new game)' %></p>
+      <% elsif info %>
+        <p><%= 'You Can only submit one lowercase letter' %></p>
+      <%end%>
     </div>
 
   </body>
